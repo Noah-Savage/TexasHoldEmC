@@ -1,0 +1,7 @@
+This is currently a work in progress (as of 6/6/2019)
+
+This is my first "project" in C++ and is meant to get aquainted with the syntax and structures most used and which
+structures are best used in different situations.
+
+I hope to eventually add suits as well so if somehow both the house and player get a flush, suit can play roll,
+but that will remain to be seen.
