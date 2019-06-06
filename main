@@ -1,0 +1,345 @@
+#include <iostream>
+#include <cstring>
+#include <random>
+#include <ctime>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+struct card
+{
+  int num;
+  string suit;
+};
+
+
+int
+main ()
+{
+  //Seeding RNG to make sure it is different every time
+  srand (time (NULL));
+
+  card your1, your2, house1, house2, flop1, flop2, flop3, river, turn;
+  vector < int >houseNums (0);
+  int chips = 100;
+  bool win = true;
+  int random_integer, bet;
+  int occurences1 = 0;
+  int occurences2 = 0;
+  int hocc1 = 0;
+  int hocc2 = 0;
+  string yourres1 = "You got nothin!";
+  string yourres2 = "You got nothin!";
+  string houseres1 = "The house got nothin!";
+  string houseres2 = "The house got nothin!";
+  int lowestNum = 2, highestNum = 14;
+  int range = (highestNum - lowestNum) + 1;
+  string quit = "";
+  string guess, your1s, your2s, yourRes, houseRes;
+
+
+  cout <<
+    "Responding no to any question (after the first one) will automatically fold the hand. Good luck!\n";
+
+  while ((!(quit == "n")) && chips > 0)
+    {
+      //Create all cards for player and house
+      your1.num = lowestNum + rand () % range;;
+
+      your2.num = lowestNum + rand () % range;;
+
+      house1.num = lowestNum + rand () % range;
+
+      house2.num = lowestNum + rand () % range;
+
+      //Print out the appropriate names of the cards of the player
+      if ((your1.num <= 10) && (your2.num <= 10))
+	{
+	  cout << "Your hand: " << your1.num << " " << your2.num << "\n";
+	}
+      else if ((your1.num > 10) || your2.num > 10)
+	{
+	  if ((your1.num > 10 && your2.num <= 10))
+	    {
+	      if (your1.num == 11)
+		{
+		  cout << "Your hand: Jack " << your2.num << "\n";
+		}
+	      else if (your1.num == 12)
+		{
+		  cout << "Your hand: Queen " << your2.num << "\n";
+		}
+	      else if (your1.num == 13)
+		{
+		  cout << "Your hand: King " << your2.num << "\n";
+		}
+	      else if (your1.num == 14)
+		{
+		  cout << "Your hand: Ace " << your2.num << "\n";
+		}
+	    }
+	  else if ((your1.num <= 10) && (your2.num > 10))
+	    {
+	      if (your2.num == 11)
+		{
+		  cout << "Your hand: " << your1.num << " Jack\n";
+		}
+	      else if (your2.num == 12)
+		{
+		  cout << "Your hand: " << your1.num << " Queen\n";
+		}
+	      else if (your2.num == 13)
+		{
+		  cout << "Your hand: " << your1.num << " King\n";
+		}
+	      else if (your2.num == 14)
+		{
+		  cout << "Your hand: " << your1.num << " Ace\n";
+		}
+	    }
+	}
+
+      cout << "How much would you like to bet? ";
+      cin >> bet;
+      chips = chips - bet;
+
+
+
+      cout << "Do you think you will win? (y/n) ";
+      cin >> guess;
+
+      flop1.num = lowestNum + rand () % range;
+      flop2.num = lowestNum + rand () % range;
+      flop3.num = lowestNum + rand () % range;
+      river.num = lowestNum + rand () % range;
+      turn.num = lowestNum + rand () % range;
+      houseNums.push_back(flop1.num);
+      houseNums.push_back(flop2.num);
+      houseNums.push_back(flop3.num);
+      houseNums.push_back(river.num);
+      cout<<"\n" << houseNums.front() << "\n";
+
+      cout << "\nThe flop: " << flop1.num << " " << flop2.
+	num << " " << flop3.num << "\n";
+
+      //cout<<"The river: " << flop1.num << " " << flop2.num << " " << flop3.num << " " << river.num << "\n";
+
+      //cout<<"The turn: " << flop1.num << " " << flop2.num << " " << flop3.num << " " << river.num << " " << turn.num << "\n";
+
+      if (guess == "y")
+	{
+	  cout << "\nStill think you got it? (y/n) ";
+	  cin >> guess;
+	}
+      else if (guess == "n")
+	{
+	  cout << "\nHow about now? (y/n) ";
+	  cin >> guess;
+	}
+
+
+      if (guess == "n")
+	{
+	  //Display the rest of the drawn cards
+
+	  cout << "That's too bad!\n";
+
+	  cout << "\nThe river: " << flop1.
+	    num << " " << flop2.num << " " << flop3.num << " " << river.
+	    num << "\n";
+
+	  cout << "The turn: " << flop1.
+	    num << " " << flop2.num << " " << flop3.num << " " << river.
+	    num << " " << turn.num << "\n";
+
+	  //Display what the house had
+	  if ((house1.num <= 10) && (house2.num <= 10))
+	    {
+	      cout << "The house: " << house1.
+		num << " " << house2.num << "\n";
+	    }
+	  else if ((house1.num > 10) || house2.num > 10)
+	    {
+	      if ((house1.num > 10 && house2.num <= 10))
+		{
+		  if (house1.num == 11)
+		    {
+		      cout << "The house: Jack " << house2.num << "\n";
+		    }
+		  else if (house1.num == 12)
+		    {
+		      cout << "The house: Queen " << house2.num << "\n";
+		    }
+		  else if (house1.num == 13)
+		    {
+		      cout << "The house: King " << house2.num << "\n";
+		    }
+		  else if (house1.num == 14)
+		    {
+		      cout << "The house: Ace " << house2.num << "\n";
+		    }
+		}
+	      else if ((house1.num <= 10) && (house2.num > 10))
+		{
+		  if (house2.num == 11)
+		    {
+		      cout << "The house: " << house1.num << " Jack\n";
+		    }
+		  else if (house2.num == 12)
+		    {
+		      cout << "The house: " << house1.num << " Queen\n";
+		    }
+		  else if (house2.num == 13)
+		    {
+		      cout << "The house: " << house1.num << " King\n";
+		    }
+		  else if (house2.num == 14)
+		    {
+		      cout << "The house: " << house1.num << " Ace\n";
+		    }
+		}
+	    }
+
+	  //Check if the cards on the table match any in the players hand or house hand
+	  for (int x = 0; x < houseNums.size(); x++)
+	    {
+	      if (houseNums.at(x) == your1.num)
+		{
+		  occurences1++;
+		}
+	      if (houseNums.at(x) == your2.num)
+		{
+		  occurences2++;
+		}
+	      if (houseNums.at(x) == house1.num)
+		{
+		  hocc1++;
+		}
+	      if (houseNums.at(x) == house1.num)
+		{
+		  hocc2++;
+		}
+
+	    }
+
+	  //Set the string results for your hand and the houses hand
+	  if (occurences1 > 0)
+	    {
+	      if (occurences1 == 1)
+		{
+		  yourres1 = "You got a pair of your first card!";
+		}
+	      else if (occurences1 == 2)
+		{
+		  yourres1 = "You got three of a kind of " + your1.num;
+		}
+	      else if (occurences1 == 3)
+		{
+		  yourres1 = "Four of a kind!";
+		}
+	    }
+	  if (occurences2 > 0)
+	    {
+	      if (occurences2 == 1)
+		{
+		  yourres2 = "You got a pair of your second card!";
+		}
+	      else if (occurences2 == 2)
+		{
+		  yourres2 = "You got three of a kind of " + your2.num;
+		}
+	      else if (occurences2 == 3)
+		{
+		  yourres2 = "Four of a kind!";
+		}
+	    }
+
+	  if (hocc1 > 0)
+	    {
+	      if (hocc1 == 1)
+		{
+		  houseres1 = "The house got a pair of their first card!";
+		}
+	      else if (hocc1 == 2)
+		{
+		  houseres1 =
+		    "The house got three of a kind of " + house1.num;
+		}
+	      else if (hocc1 == 3)
+		{
+		  houseres1 = "The house got four of a kind!";
+		}
+	    }
+	  if (hocc2 > 0)
+	    {
+	      if (hocc2 == 1)
+		{
+		  yourres2 = "The house got a pair of their second card!";
+		}
+	      else if (hocc2)
+		{
+		  yourres2 = "The house got three of a kind of " + your2.num;
+		}
+	      else if (hocc2 == 3)
+		{
+		  yourres2 = "The house got four of a kind!";
+		}
+	    }
+	  //Account for a full house
+	  if ((hocc1 == 2 && hocc2 == 1) || (hocc1 == 1 && hocc2 == 2))
+	    {
+	      houseres1 = "The house got a full house!";
+	    }
+	  if ((occurences1 == 2 && occurences2 == 1)
+	      || (occurences1 == 1 && occurences2 == 2))
+	    {
+	      yourres1 = "You got a full house!";
+	    }
+
+
+
+	  if ((yourres1 == "You got nothin!")
+	      && (yourres2 == "You got nothin!")
+	      && (houseres1 == "The house got nothin!")
+	      && (houseres2 == "The house got nothin!"))
+	    {
+	      if (((house1.num > your1.num) && (your1.num > your2.num))
+		  || ((house2.num > your1.num) && (house2.num > your2.num)))
+		  {
+            yourres1 == "The house has the high card!";
+            yourres2 == "The house has the high card!";
+            houseres1 == "The house has the high card!";
+            houseres2 == "The house has the high card!";
+            win = false;
+		  }
+		  }
+
+		  if (yourres1 == yourres2)
+		  {
+		  cout << yourres1 << "\n";}
+		  else
+		  {
+		  cout << yourres1 << "\n" << yourres2 << "\n";}
+		  if (houseres1 == houseres2)
+		  {
+		  cout << houseres2 << "\n";}
+		  else
+		  {
+		  cout << houseres1 << "\n" << houseres2 << "\n";}
+
+
+        if(win == true){
+           chips = chips + (2*bet); 
+        }
+
+		  cout << "\nWould you like to play again? (y/n) ";
+		  cin >> quit;
+	    
+	    }
+	}
+
+
+		  cout << "Thanks for playing! You finished with " << chips <<
+		  " chips left!";}
+
